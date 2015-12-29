@@ -102,7 +102,8 @@ class Election(models.Model):
         help_text="This will be used as the username part of the email"
         " address for voters to request their ballot key.")
     votetaker = models.ForeignKey(Votetaker)
-    secondary = models.ForeignKey(Votetaker, null=True, blank=True)
+    secondary = models.ForeignKey(Votetaker, null=True, blank=True,
+                                  related_name="secondary_election_set")
     votetype = models.CharField(
         max_length=64,
         help_text="This is just a helpful classification of what sort of"
