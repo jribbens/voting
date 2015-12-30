@@ -68,6 +68,7 @@ class Statement(models.Model):
     slug = models.SlugField()
     release_date = models.DateField(db_index=True)
     msgid = MessageIDField(
+        "Message-ID",
         help_text="The Message-ID of the published statement.")
     statement = models.TextField(editable=False)
 
@@ -105,7 +106,7 @@ class Election(models.Model):
     secondary = models.ForeignKey(Votetaker, null=True, blank=True,
                                   related_name="secondary_election_set")
     votetype = models.CharField(
-        max_length=64,
+        "Vote type", max_length=64,
         help_text="This is just a helpful classification of what sort of"
         " election this is. Its value does not affect the operation of the"
         " election.")
@@ -114,34 +115,34 @@ class Election(models.Model):
         " in their vote. It should match the rationale, summary of discussion,"
         " changes from the last RFD, and proposal, from the CFV.")
     cfv_date = models.DateField(
-        "CFV Date", blank=True, null=True, db_index=True,
+        "CFV date", blank=True, null=True, db_index=True,
         help_text="Votes received before this date will not be accepted.")
     cfv_end_date = models.DateField(
         "CFV end date", blank=True, null=True,
         help_text="Votes received after this date will not be accepted.")
     cfv_msgid = MessageIDField(
-        blank=True,
+        "CFV Message-ID", blank=True,
         help_text="Fill this in with the Message-ID (including angle brackets)"
         " of the CFV once it appears.")
-    cfv = models.TextField(editable=False)
+    cfv = models.TextField("CFV", editable=False)
     result_date = models.DateField(
         blank=True, null=True,
         help_text="Fill this in with the date the results posting appears.")
     result_msgid = MessageIDField(
-        blank=True,
+        "Result Message-ID", blank=True,
         help_text="Fill this in with the Message-ID (including angle brackets)"
         " of the results posting once it appears.")
     result = models.TextField(editable=False)
     uk_vote = models.BooleanField(
         "uk.* vote", default=True,
         help_text="Un-tick this box if this election is not an official uk.*"
-        " election following a CFV in uk.net.news.announce.")
+        " election whose CFV will be posted in uk.net.news.announce.")
     hidden = models.BooleanField(
         default=False,
         help_text="Tick this box to hide this vote completely from public"
         " pages (e.g. for testing).")
     status = models.CharField(
-        max_length=2, default=SETUP, choices=(
+        max_length=10, default=SETUP, choices=(
             (SETUP, "Setting up"),
             (ACTIVE, "Voting in progress"),
             (COUNT, "Counting in progress"),
