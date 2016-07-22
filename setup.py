@@ -8,19 +8,19 @@ setuptools.setup(
     version="0.0.1",
     description="UKVoting web systems",
     author="Jon Ribbens",
-    author_email="jon-voting@unequivocal.co.uk",
+    author_email="jon-voting@unequivocal.eu",
     url="https://github.com/jribbens/voting",
     license="MIT",
     py_modules=["voting"],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
-        "Framework :: Django :: 1.8",
+        "Framework :: Django :: 1.9",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
     ],
     install_requires=[
-        "Django>=1.8",
+        "Django>=1.9",
         "dnspython3>=1.12",
     ]
 )
