@@ -8,6 +8,27 @@ from .models import Choice, Election, Statement, Question, Voter, Votetaker
 @admin.register(Votetaker)
 class VotetakerAdmin(admin.ModelAdmin):
     """Votetaker admin class."""
+    list_display = ("username", "full_name", "role", "active")
+    list_display_links = ("username",)
+    list_filter = ("user__is_active",)
+
+    def full_name(self, obj):
+        """Return the votetaker's full name."""
+        # pylint: disable=no-self-use
+        return obj.user.get_full_name()
+    full_name.short_description = "Name"
+
+    def username(self, obj):
+        """Return the votetaker's username."""
+        # pylint: disable=no-self-use
+        return obj.user.username
+
+    def active(self, obj):
+        """Return whether or not the votetaker is active."""
+        # pylint: disable=no-self-use
+        return obj.user.is_active
+    active.boolean = True
+
 
 
 @admin.register(Statement)
