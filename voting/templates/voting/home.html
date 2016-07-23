@@ -1,0 +1,40 @@
+{% extends "voting/base.html" %}
+{% block title %}The UKVoting Home Pages{% endblock %}
+{% block content %}
+  <h1>The UKVoting Home Pages</h1>
+  <h2>What is UKVoting?</h2>
+  <p>A group of <a href="{% url "voting:votetakers" %}">people</a>,
+    independent of the
+    <a href="http://www.usenet.org.uk/committee.html">Committee</a>,
+    who are empowered by the
+    <a href="http://www.usenet.org.uk/voting.html">Voting Procedures</a>
+    to conduct votes.
+  <p>Since September 1995, newsgroup creation within the UK hierarchy has been
+    governed by a set of Guidelines and an elected committee. It is hoped that
+    most creations of new newsgroups within the UK hierarchy can be
+    accomplished speedily and without the necessity for voting. When dissention
+    arises, however, voting may be the only method of resolution. Obviously, to
+    take the votes, you need votetakers, which is where UKVoting come in.
+  <p>UKVoting is also willing to take votes for other hierarchies - for
+    example, we took the vote on establishing the Terms of Reference for the
+    Usenet Committee for the 'ie' hierarchy.
+
+  <h2>More information</h2>
+  <ul>
+    <li><a href="{% url "voting:votetakers" %}">Who are UKVoting?</a>
+  </ul>
+
+  <h2>Related Links</h2>
+  <ul>
+    <li><a href="http://www.usenet.org.uk/voting.html">Voting Procedures within
+      the UK Hierarchy</a>
+    <li><a href="http://www.usenet.org.uk/">The UK Usenet Committee</a>
+      who have the unenviable task of riding herd over this process.
+    <li><a href="http://www.usenet.org.uk/newsadmins.html">UK Newsadmin's
+      FAQ</a>
+  </ul>
+{% endblock %}
+{% block footer %}
+  <hr>
+  <p><small>UKVoting Banner graphic courtesy Sarah Baker</small>
+{% endblock %}

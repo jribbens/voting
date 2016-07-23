@@ -1,0 +1,72 @@
+{% extends "voting/base.html" %}
+{% load voting_extras %}
+{% block title %}Who are UKVoting?{% endblock %}
+{% block content %}
+  <h1>Who are the members of UKVoting?</h1>
+  <h2>Current members</h2>
+  <p>The current membership of UKVoting is as follows:
+  <ul>
+    {% for votetaker in active_votetakers %}
+      <li>
+        {{ votetaker.user.get_full_name }}
+        [{% mailto_link votetaker.public_email|default:votetaker.user.email %}]
+        {% if votetaker.role %}- {{ votetaker.role }}{% endif %}
+    {% endfor %}
+  </ul>
+
+  <h2>How to contact us</h2>
+  <p>UKVoting can be emailed at
+    {% mailto_link "ukvoting@ukvoting.org.uk" %}.</p>
+
+  <h2>So, it's just another self-appointed Cabal?</h2>
+  <p>Yes and no. We are independent votetakers, which means that none of us
+  are members of the UK Usenet Committee. We recruit from anyone who is
+  interested and has sufficient time, energy and a little technical knowledge,
+  but as we haven't been voted into office there is some justification in
+  calling us a self-appointed cabal. However, whether elected votetakers is
+  a good idea, I leave up to you with reference to the old Latin tag
+  <i>Quis custodiet ipsos custodes</i>.</p>
+
+  <h2>So can I become a votetaker?</h2>
+  <p>At this time UKVoting has no requirement for any more votetakers. But if
+  you wish to be considered in the future please mail the address below.</p>
+  <p>We need several qualities in a votetaker, obviously a fair amount of spare
+  time and a good deal of patience help but in addition we find the following
+  are needed:</p>
+  <ul>
+    <li>You must have either a separate voting account or a way to make
+      separate mail lists so that the votes are not mixed with your own
+      personal mail. Or, if you can use a mail-filtering package such as
+      procmail to effectively sort the votes into their own folders and
+      avoid overwhelming your own mailbox, that may work depending on your
+      own abilities.
+    <li>You must be willing and have the intention to be a neutral votetaker,
+      not favouring any side in the vote. You must have a stronger interest in
+      upholding the Guidelines (see below) than seeing any particular outcome.
+      You must not accept the task of handling the vote for any topic which
+      you would have an interest in voting.
+    <li>In terms of personal experience, you must have an understanding of the
+      UK hierarchy voting process, usually indicated by having done the
+      following:<br />
+      Read the <a href="http://www.usenet.org.uk/guidelines.html">Guidelines
+      for Group Creation within the UK hierarchy</a> (a.k.a. "The
+      Guidelines").<br />
+      Read <a href="news:uk.net.news.config">uk.net.news.config</a> for about
+      2 months to become familiar with the volatility of the group.
+    <li>An understanding (not necessarily in depth) of how Network News and
+      email work.
+  </ul>
+  <p>If you are still interested then mail
+    {% mailto_link "ukvoting@ukvoting.org.uk" "the UKVoting Co-Ordinators" %}.
+
+  {% if retired_votetakers %}
+    <h2>Retired members</h2>
+    <ul>
+      {% for votetaker in retired_votetakers %}
+        <li>
+          {{ votetaker.user.get_full_name }}
+          {% if votetaker.role %}- {{ votetaker.role }}{% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}
