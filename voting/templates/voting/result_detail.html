@@ -1,0 +1,19 @@
+{% extends "voting/base.html" %}
+{% load voting_extras %}
+{% block title %}{{ election.result_date|date:"d M Y" }}: {{ election.title }}{% endblock %}
+{% block content %}
+  <h1>{{ election.result_date|date:"d M Y" }}: {{ election.title }}</h1>
+  <pre>
+{% if message.from %}
+From: <strong>{{ message.from|escape_all }}</strong>
+Date: <strong>{{ message.date }}</strong>
+Subject: <strong>{{ message.subject }}</strong>
+Newsgroups: <strong>{{ message.newsgroups }}</strong>
+
+{{ body }}
+{% else %}
+{{ election.result }}
+{% endif %}
+</pre>
+  You can also see the <a href="{{ election.get_raw_result_url }}">raw article</a>.
+{% endblock %}

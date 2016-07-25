@@ -22,6 +22,36 @@
   <h2>More information</h2>
   <ul>
     <li><a href="{% url "voting:votetakers" %}">Who are UKVoting?</a>
+    <li><a href="{% url "voting:statements" %}">Statements by UKVoting</a>
+  </ul>
+  <ul>
+    <li>
+      <a href="{% url "voting:status" %}">Status of Current and Pending CFVs</a>
+  </ul>
+  <ul>
+    <li>
+      <a href="{% url "voting:results" %}">
+        Results of past votes in the UK hierarchy
+      </a>
+    <li>
+      <a href="{% url "voting:results" %}?non-uk">
+        Results of past votes for other hierarchies
+      </a>
+    <li><a href="{% url "voting:missing" %}">Missing historical files</a>
+  </ul>
+  <ul>
+    <li>
+      <a href="{% url "voting:pgpkeys" %}">
+        PGP Keys for Votetakers
+      </a>
+    <li>
+      <a href="{% url "voting:resources" %}">
+        Resources for UKVoting members
+      </a>
+    <li>
+      <a href="{% url "voting:guidelines" %}">
+        UKVoting Guidelines for Votetakers
+      </a>
   </ul>
 
   <h2>Related Links</h2>

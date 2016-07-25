@@ -1,0 +1,26 @@
+{% extends "voting/base.html" %}
+{% load voting_extras %}
+{% block title %}Statements by UKVoting{% endblock %}
+{% block content %}
+  <h1>Statements by UKVoting</h1>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Title</th>
+    </tr>
+    {% for statement in statement_list %}
+      <tr>
+        <td class="nowrap center">{{ statement.release_date|date:"d M Y" }}</td>
+        <td>
+          {% if statement.statement %}
+            <a href="{{ statement.get_absolute_url }}">
+              {{ statement.title }}
+            </a>
+          {% else %}
+            {{ statement.title }}
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

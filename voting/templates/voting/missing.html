@@ -1,0 +1,43 @@
+{% extends "voting/base.html" %}
+{% load voting_extras %}
+{% block title %}Missing historical files{% endblock %}
+{% block content %}
+  <h1>Missing historical files</h1>
+  {% if not cfvs and not results %}
+    <p>There are no missing historical files at the current time.
+  {% else %}
+    <p>
+      If you have the original CFV or results posting (including headers) of one
+      of the following votes, or of a vote not listed at all on the
+      <a href="{% url "voting:results" %}">results page</a>, please send it to
+      {% mailto_link "webmaster@ukvoting.org.uk" %}.
+    {% if results %}
+      <h2 class="center">Missing results</h2>
+      <table>
+        <tr><th>Date</th><th>Title</th></tr>
+        {% for election in results %}
+          <tr>
+            <td class="nowrap center">
+              {{ election.result_date|date:"d M Y" }}
+            </td>
+            <td>{{ election.title }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    {% if cfvs %}
+      <h2 class="center">Missing CFVs</h2>
+      <table>
+        <tr><th>Date</th><th>Title</th></tr>
+        {% for election in cfvs %}
+          <tr>
+            <td class="nowrap center">
+              {{ election.cfv_date|default:election.result_date|date:"d M Y" }}
+            </td>
+            <td>{{ election.title }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  {% endif %}
+{% endblock %}

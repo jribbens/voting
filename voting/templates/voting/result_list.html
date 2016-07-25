@@ -1,0 +1,40 @@
+{% extends "voting/base.html" %}
+{% load voting_extras %}
+{% block title %}Results of past votes{% endblock %}
+{% block content %}
+  <h1>Results of past votes</h1>
+  <p>This list of votes is as complete as was possible to collate. If you have
+  a posting of a vote not listed below, please mail it to the
+  {% mailto_link "webmaster@ukvoting.org.uk" "webmaster" %} for
+  inclusion.
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Votetaker</th>
+    </tr>
+    {% for election in election_list %}
+      <tr>
+        <td class="nowrap center">
+          {{ election.result_date|date:"d M Y" }}
+        </td>
+        <td>
+          {% if election.result %}
+            <a href="{{ election.get_result_url }}">
+              {{ election.title }}
+            </a>
+          {% else %}
+            {{ election.title }}
+          {% endif %}
+        </td>
+        <td class="nowrap center">{{ election.votetype }}</td>
+        <td class="nowrap center">
+          <a href="?votetaker={{ election.votetaker.user.username }}">
+            {{ election.votetaker.user.get_full_name }}
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

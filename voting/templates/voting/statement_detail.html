@@ -1,0 +1,14 @@
+{% extends "voting/base.html" %}
+{% load voting_extras %}
+{% block title %}{{ statement.release_date|date:"d M Y" }}: {{ statement.title }}{% endblock %}
+{% block content %}
+  <h1>{{ statement.release_date|date:"d M Y" }}: {{ statement.title }}</h1>
+  <pre>From: <strong>{{ message.from|escape_all }}</strong>
+Date: <strong>{{ message.date }}</strong>
+Subject: <strong>{{ message.subject }}</strong>
+Newsgroups: <strong>{{ message.newsgroups }}</strong>
+
+{{ body }}
+</pre>
+  You can also see the <a href="{{ statement.get_raw_url }}">raw article</a>.
+{% endblock %}

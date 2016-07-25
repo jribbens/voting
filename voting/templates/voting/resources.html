@@ -1,0 +1,20 @@
+{% extends "voting/base.html" %}
+{% load static %}
+{% block title %}Resources for Votetakers{% endblock %}
+{% block content %}
+  <h1>Resources for Votetakers</h1>
+  <ul>
+    <li>
+      <a href="{% static "voting/procedure.html" %}">
+        General Procedures for taking a vote
+      </a>
+    <li>
+      <a href="{% static "voting/condorcet-guide.html" %}">
+        Chris Dickson's guide to Condorcet Voting
+      </a>
+    <li>
+      <a href="{% static "voting/template.txt" %}">
+        Template CFV and ballot paper
+      </a>
+  </ul>
+{% endblock %}

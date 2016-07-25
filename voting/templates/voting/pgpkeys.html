@@ -1,0 +1,19 @@
+{% extends "voting/base.html" %}
+{% block title %}PGP Keys for Votetakers{% endblock %}
+{% block content %}
+  <h1>PGP Keys for Votetakers</h1>
+  <ul>
+    {% for votetaker in votetakers %}
+      <li>
+        <a href="#{{ votetaker.user.username }}">
+          {{ votetaker.user.get_full_name }}
+        </a>
+    {% endfor %}
+  </ul>
+  {% for votetaker in votetakers %}
+    <h2 id="{{ votetaker.user.username }}">
+      {{ votetaker.user.get_full_name }}
+    </h2>
+    <pre>{{ votetaker.pgpkey }}</pre>
+  {% endfor %}
+{% endblock %}

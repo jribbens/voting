@@ -1,0 +1,62 @@
+{% extends "voting/base.html" %}
+{% load voting_extras %}
+{% block title %}Status of Current and Pending CFVs{% endblock %}
+{% block content %}
+  <h1>Status of Current and Pending CFVs</h1>
+  {% if not count and not active and not setup %}
+    <p>There are no current or pending CFVs at the current time.
+  {% else %}
+    {% if count %}
+      <h2 class="center">Counting in progress</h2>
+      <table>
+        <tr>
+          <th class="nowrap">Voting closed</th><th>Title</th><th>Votetaker</th>
+        </tr>
+        {% for election in count %}
+          <tr>
+            <td class="nowrap center">
+              {{ election.cfv_end_date|date:"d M Y" }}
+            </td>
+            <td>{{ election.title }}</td>
+            <td class="nowrap center">
+              {{ election.votetaker.user.get_full_name }}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    {% if active %}
+      <h2 class="center">Voting in progress</h2>
+      <table>
+        <tr>
+          <th class="nowrap">Voting closes</th><th>Title</th><th>Votetaker</th>
+        </tr>
+        {% for election in active %}
+          <tr>
+            <td class="nowrap center">
+              {{ election.cfv_end_date|date:"d M Y" }}
+            </td>
+            <td>{{ election.title }}</td>
+            <td class="nowrap center">
+              {{ election.votetaker.user.get_full_name }}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    {% if setup %}
+      <h2 class="center">In preparation</h2>
+      <table>
+        <tr><th>Title</th><th>Votetaker</th></tr>
+        {% for election in setup %}
+          <tr>
+            <td>{{ election.title }}</td>
+            <td class="nowrap center">
+              {{ election.votetaker.user.get_full_name }}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  {% endif %}
+{% endblock %}
