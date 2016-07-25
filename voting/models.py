@@ -6,6 +6,7 @@ import uuid
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 
@@ -57,6 +58,10 @@ class Votetaker(models.Model):
         blank=True,
         help_text="Private contact details for the votetaker. These will"
         " never be displayed on any public pages.")
+    pgpkey = models.TextField(
+        "PGP Key", blank=True,
+        help_text="The PGP public key block for the votetaker. If provided,"
+        " it will be displayed on the public pages.")
 
     def __str__(self):
         return self.user.get_full_name()
@@ -65,15 +70,33 @@ class Votetaker(models.Model):
 class Statement(models.Model):
     """Statement model."""
     title = models.CharField(max_length=254)
-    slug = models.SlugField()
-    release_date = models.DateField(db_index=True)
+    slug = models.SlugField(db_index=False)
+    release_date = models.DateField()
     msgid = MessageIDField(
         "Message-ID",
         help_text="The Message-ID of the published statement.")
     statement = models.TextField(editable=False)
 
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        """Return the canonical URL for this statement."""
+        return reverse("voting:statement", kwargs={
+            "release_date": self.release_date.strftime("%Y/%m/%d"),
+            "slug": self.slug,
+        })
+
+    def get_raw_url(self):
+        """Return the canonical URL for the raw version of this statement."""
+        return reverse("voting:statement_raw", kwargs={
+            "release_date": self.release_date.strftime("%Y/%m/%d"),
+            "slug": self.slug,
+        })
+
     class Meta:
         ordering = ("-release_date",)
+        unique_together = ("release_date", "slug")
 
 
 def _generate_secret():
@@ -98,11 +121,12 @@ class Election(models.Model):
     ABANDONED = "abandoned"
     title = models.CharField(max_length=254)
     shortname = models.CharField(
-        "Short name", max_length=8, unique=True,
+        "Short name", max_length=8, null=True, unique=True,
         validators=[_validate_shortname],
-        help_text="This will be used as the username part of the email"
+        help_text="This is a unique short identifier for the vote."
+        " It will be used as the username part of the email"
         " address for voters to request their ballot key.")
-    votetaker = models.ForeignKey(Votetaker)
+    votetaker = models.ForeignKey(Votetaker, null=True)
     secondary = models.ForeignKey(Votetaker, null=True, blank=True,
                                   related_name="secondary_election_set")
     votetype = models.CharField(
@@ -111,6 +135,7 @@ class Election(models.Model):
         " election this is. Its value does not affect the operation of the"
         " election.")
     proposal = models.TextField(
+        blank=True,
         help_text="This text is displayed to the voter when they are filling"
         " in their vote. It should match the rationale, summary of discussion,"
         " changes from the last RFD, and proposal, from the CFV.")
@@ -157,9 +182,22 @@ class Election(models.Model):
 
     class Meta:
         ordering = ("-cfv_date",)
+        index_together = ("status", "result_date")
 
     def __str__(self):
         return self.title
+
+    def get_result_url(self):
+        """Return the URL for the result for this election."""
+        return reverse("voting:result", kwargs={
+            "key": self.shortname or self.id,
+        })
+
+    def get_raw_result_url(self):
+        """Return the URL for the raw result for this election."""
+        return reverse("voting:result_raw", kwargs={
+            "key": self.shortname or self.id,
+        })
 
     def accepting_votes(self):
         """Returns true if this election is currently accepting votes."""
