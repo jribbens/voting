@@ -96,7 +96,7 @@ class ResultList(ListView):
             queryset = queryset.exclude(uk_vote=True)
         else:
             queryset = queryset.exclude(uk_vote=False)
-        if "votetaker" in self.request.GET:
+        if self.request.GET.get("votetaker", None):
             queryset = queryset.filter(
                 votetaker__user__username=self.request.GET["votetaker"])
         queryset = queryset.defer("proposal", "cfv")
