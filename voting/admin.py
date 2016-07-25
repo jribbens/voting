@@ -35,6 +35,8 @@ class VotetakerAdmin(admin.ModelAdmin):
 class StatementAdmin(admin.ModelAdmin):
     """Statement admin class."""
     date_hierarchy = "release_date"
+    list_display = ("release_date", "title")
+    list_display_links = ("title",)
     prepopulated_fields = {"slug": ("title",)}
 
 
@@ -53,8 +55,8 @@ class QuestionAdmin(admin.ModelAdmin):
 class ElectionAdmin(admin.ModelAdmin):
     """Election admin class."""
     date_hierarchy = "cfv_date"
-    list_display = ("cfv_date", "status", "shortname", "title")
-    list_display_links = ("shortname", "title")
+    list_display = ("cfv_date", "shortname", "title")
+    list_display_links = ("title",)
     list_filter = ("status", "hidden", "uk_vote")
     radio_fields = {"status": admin.HORIZONTAL}
     search_fields = ("shortname", "title", "proposal")
