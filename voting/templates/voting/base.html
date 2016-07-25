@@ -1,28 +1,36 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>
-          {% block title %}{% endblock title%} - Voting
-        </title>
-        <style type="text/css">
-          h1 { text-align: center }
-          img { border: none }
-          #logo { text-align: center }
-        </style>
-    </head>
-    <body>
-      <div id="logo">
-        <a href="{% url "voting:home" %}">
-          <img src="{% static "voting/images/ukvoting.gif" %}" alt="UKVoting"
-            width=480 height=100>
-        </a>
-      </div>
-      {% block content %}{% endblock %}
-      {% block footer %}
-        <hr>
-        <a href="{% url "voting:home" %}">Back ot the UKVoting homepage</a>
-      {% endblock %}
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <title>
+      {% block title %}UKVoting{% endblock title%}
+    </title>
+    <style type="text/css">
+      h1 { text-align: center }
+      img { border: none }
+      #logo { text-align: center }
+      table {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      }
+      td { background-color: #e0e0e0 }
+      .nowrap { white-space: nowrap }
+      .center { text-align: center }
+    </style>
+  </head>
+  <body>
+    <div id="logo">
+      <a href="{% url "voting:home" %}">
+        <img src="{% static "voting/images/ukvoting.gif" %}" alt="UKVoting"
+          width=480 height=100>
+      </a>
+    </div>
+    {% block content %}{% endblock %}
+    {% block footer %}
+      <hr>
+      <a href="{% url "voting:home" %}">Back ot the UKVoting homepage</a>
+    {% endblock %}
+  </body>
 </html>
