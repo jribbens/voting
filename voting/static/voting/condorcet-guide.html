@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Condorcet Counting for uk.*</title></head>
+<body>
+<h1>CONDORCET COUNTING FOR UK.*</h1>
+<p>(version 1.0, Chris M. Dickson, 14/4/99)</p>
+<h2>1) INTRODUCTION</h2>
+<p>When somebody casts a vote in a simple yes/no vote, such as whether or not to
+create a newsgroup, they have three choices as to how to cast their vote. If
+they prefer &quot;yes&quot; to &quot;no&quot;, they vote for &quot;yes&quot;. If
+they prefer &quot;no&quot; to &quot;yes&quot;, they vote for &quot;no&quot;. If
+they have no preference between the two, they vote &quot;abstain&quot;. When
+someone votes in a Condorcet-counted vote, they are doing essentially the same
+task, expressing preference for some options over other options.</p>
+<h2>2) CFV DESIGN</h2>
+<p>I think it is likely that most uk.* Condorcet-counted votes will come when
+there is one newsgroup to be created with one of two possible names, or two
+alternative suggestions to change an existent charter or guideline. In either
+circumstance, we must also provide an option to preserve the Status Quo; also,
+we must provide an option to Re-Open the Discussion, but in only the first two
+votes on any one proposal. Condorcet, Status Quo and two Discussion Re-Openings
+were all mandated by Paul Bolchover's voting procedures guideline change CFV of
+April '98. Thus it is usual that a Condorcet-counted ballot paper will look like
+this.</p>
+<pre>======================= Start of Ballot XXX01 ======================
+
+Your real name: [ Fill in your name between the brackets ]
+Your e-mail address: [ Fill.in@your.address.between.the.brackets ]
+
+*PLEASE COMPLETE THE ABOVE SECTIONS FOR VOTE TO BE VALID.*
+
+Please rank your preferences below:
+
+Option A : [ ]
+Option B : [ ]
+Status Quo (create neither group): [ ]
+Re-Open Discussion: [ ]
+
+======================== End of Ballot XXX01 =======================</pre>
+<p>Should there be more options to choose from, they would go between Option B
+and Status Quo.</p>
+<p>Immediately before the ballot paper, you should include this text, which
+seems to have been accepted as the usual description of &quot;how to vote&quot;.</p>
+<p>---start quote---</p>
+<pre>This vote is being counted under the Condorcet system. Voters are required to
+mark a 1 by their favourite option, a 2 by their second favourite option and so
+forth. Voters are permitted to mark the same number by more than one option when
+they are indifferent between them.
+
+Voters are permitted to leave options unmarked, but are requested not to; the
+voter is assumed to show indifference between unmarked options, but to prefer
+all the marked options to all the unmarked options. To abstain from the vote,
+fill in your name and e-mail address only, leaving all four options unmarked.</pre>
+<p>---end quote---</p>
+<h2>3) RESULTS INTERPRETATION</h2>
+<p>As a result, you will get people filling the four (or more) boxes with
+digits. If they fill in the boxes like this:</p>
+<pre>Option A : [2]
+Option B : [1]
+Status Quo (create neither group): [4]
+Re-Open Discussion: [3]</pre>
+<p>then they are expressing six preferences:</p>
+<ol>
+<li>Prefer Option B to Option A</li>
+<li>Prefer Option B to Status Quo</li>
+<li>Prefer Option B to Re-Open Discussion</li>
+<li>Prefer Option A to Status Quo</li>
+<li>Prefer Option B to Re-Open Discussion</li>
+<li>Prefer Re-Open Discussion to Status Quo.</li></ol>
+<p>A Condorcet count is little more than six simultaneous yes/no votes on those
+six issues. An alternative way to fill the boxes might be:</p>
+<pre>Option A : [ ]
+Option B : [ ]
+Status Quo (create neither group): [1]
+Re-Open Discussion: [1]</pre>
+<p>which expresses the following six statements:</p>
+<ol>
+<li>1) Prefer Status Quo to Option A</li>
+<li>2) Prefer Status Quo to Option B</li>
+<li>3) No preference between Status Quo and Re-Open Discussion</li>
+<li>4) Prefer Re-Open Discussion to Option A</li>
+<li>5) Prefer Re-Open Discussion to Option B</li>
+<li>6) No preference between Option A and Option B.</li></ol>
+<p>Incidentally, there's no difference between</p>
+<pre>Option A : [ ]
+Option B : [ ]
+Status Quo (create neither group): [1]
+Re-Open Discussion: [1]</pre>
+<p>and</p>
+<pre>Option A : [2]
+Option B : [2]
+Status Quo (create neither group): [1]
+Re-Open Discussion: [1]</pre>
+<p>or</p>
+<pre>Option A : [3]
+Option B : [3]
+Status Quo (create neither group): [1]
+Re-Open Discussion: [1]</pre>
+<p>or even</p>
+<pre>Option A : [4]
+Option B : [4]
+Status Quo (create neither group): [1]
+Re-Open Discussion: [1]</pre>
+<p>which all express the same six statements. Boxes left blank are equivalent to
+boxes filled in with the number of boxes there are to fill in; that is, boxes
+left blank are all equal last place.</p>
+<h2>4) COUNTING</h2>
+<p>Once all the votes have come in, you can draw up a chart of voters and votes
+which might look like this:</p>
+<table><tr><th>Name</th><th>A</th><th>B</th><th>S</th><th>R</th></tr>
+<tr><td>Voter Jones</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+<tr><td>Voter Smith</td><td>2</td><td>1</td><td>3</td><td></td></tr>
+<tr><td>Voter Brown</td><td>1</td><td>1</td><td>2</td><td></td></tr>
+<tr><td>Voter Green</td><td>3</td><td>4</td><td>2</td><td>1</td></tr>
+<tr><td>Voter White</td><td>X</td><td></td><td></td><td></td></tr>
+<tr><td>Voter Black</td><td>1</td><td>3</td><td>1</td><td>2</td></tr>
+<tr><td>Voter Robinson</td><td>-</td><td>-</td><td>1</td><td>1</td></tr></table>
+<p>...and so on...</p>
+<p>The counting is done in two stages: the first compares each of the options to
+the Status Quo and determines which options go on to the second stage.</p>
+<p>The general counting technique that you need to master is how to convert a
+chart like the one above into a set of statements that one option beats another
+option by a number of votes.</p>
+<h2>5) COUNTING STAGE ONE</h2>
+<p>Concentrate on one pair of options at a time; in the first stage, you will
+compare each of the options, apart from Status Quo, against Status Quo. In this
+case, you will compare Option A against Status Quo, then Option B against Status
+Quo and finally Re-Open Discussion against Status Quo. We shall deal with the
+first of these only.</p>
+<p>What you need to do is ignore the rest of the chart apart from the columns
+containing the options you're comparing. In this case, your chart would look
+like</p>
+<table><tr><th>Name</th><th>A</th><th>S</th></tr>
+<tr><td>Voter Jones</td><td>1</td><td>3</td></tr>
+<tr><td>Voter Smith</td><td>2</td><td>3</td></tr>
+<tr><td>Voter Brown</td><td>1</td></tr>
+<tr><td>Voter Green</td><td>3</td><td>2</td></tr>
+<tr><td>Voter White</td><td>X</td></tr>
+<tr><td>Voter Black</td><td>1</td><td>1</td></tr>
+<tr><td>Voter Robinson</td><td>-</td><td>1</td></tr></table>
+<p>...and so on...</p>
+<p>In Jones' case, he's expressing a higher preference for A than for the Status
+Quo, so this is a vote for A and against Status Quo. Ditto Smith and Brown.
+Green and Robinson express a higher preference for the Status Quo than for
+Option A, so this is a vote for Status Quo and against Option A. White just put
+a cross against one option and left all the others blank; this is clearly a vote
+for Status Quo and a vote against the rest. Black expressed no preference
+between Option A and Status Quo, so this is an abstention between the two.</p>
+<p>Once you've gone down the list, you'll have a statement that some number of
+people (say 38) prefer Option A to the Status Quo, and some other number of
+people (say 21) prefer the Status Quo to Option A. Do check the list going up
+from the bottom to the top as well as down from the top to the bottom. (I tend
+to split the list into groups of ten and fifteen then add the numbers of
+preferences in each group up to come to a final total, simply because it is easy
+to get confused.) This result can be treated just like the result of a simple
+yes/no newsgroup creation vote: if an option beats the Status Quo by at least 12
+votes, it succeeds; if it doesn't beat the Status Quo by 12 or more votes, it
+fails.</p>
+<p>Work this out for each of the options apart from Status Quo, because
+comparing Status Quo against Status Quo makes no sense.</p>
+<p>If no options beat Status Quo by 12 or more votes, then the Status Quo
+prevails and Stage Two is not necessary.</p>
+<p>If exactly one option beats Status Quo by 12 or more votes, then it is the
+winner and Stage Two is not necessary.</p>
+<p>If two or more options beat Status Quo by 12 or more votes, they both survive
+to Stage Two, which does become necessary to declare a winner.</p>
+<h2>6) COUNTING STAGE TWO</h2>
+<p>Again, we concentrate on one pair of options at a time. In Stage Two, we
+compare each surviving option against each other surviving option. Any options
+that failed to beat Status Quo by 12 or more votes in Stage One are ignored in
+Stage Two. I would imagine that the two most common situations at this point
+will be:</p>
+<p>1) all the options (apart from Status Quo) reaching Stage Two</p>
+<p>2) all the options apart from Re-Open Discussion (and Status Quo) reaching
+Stage Two.</p>
+<p>The technique for comparing options against each other in Stage Two is
+exactly the same as in Stage One. Pick the possible pairs of competing options
+out one at a time and compare only the preferences awarded in those two columns.</p>
+<p>In our example, let us suppose Option A and Option B make it through to Stage
+Two from the case above. Isolating those columns only,</p>
+<table><tr><th>Name</th><th>A</th><th>B</th></tr>
+<tr><td>Voter Jones</td><td>1</td><td>2</td></tr>
+<tr><td>Voter Smith</td><td>2</td><td>1</td></tr>
+<tr><td>Voter Brown</td><td>1</td><td>1</td></tr>
+<tr><td>Voter Green</td><td>3</td><td>4</td></tr>
+<tr><td>Voter White</td><td></td><td></td></tr>
+<tr><td>Voter Black</td><td>1</td><td>3</td></tr>
+<tr><td>Voter Robinson</td><td>-</td><td>-</td></tr></table>
+<p>...and so on...</p>
+<p>Voters Jones, Green and Black prefer Option A to Option B; voter Smith
+prefers Option B to Option A; voters Brown, White and Robinson express no
+preference between them. Continue in this vein for all the voters and come to a
+conclusion that some number preferred Option A to Option B, and some number
+preferred Option B to Option A. The Option out of these two which gained more
+preferences is the winner of this pair; there is no minimum size of victory. It
+is possible, but unlikely, for two Options to tie should exactly as many prefer
+each over the other (ie 14 prefer Option A to Option B and 14 prefer Option B to
+Option A).</p>
+<p>You must proceed to declare a winner out of every possible pair of Options
+that can be drawn from the Options surviving from Stage One.</p>
+<p>Hopefully, you will reach a situation where one Option is the winner of every
+pair of itself and any other surviving Option. This Option is your Condorcet
+Winner. For instance, if only Option A and Option B in the example above
+survived from Stage One, the winner of that pair would be the Condorcet Winner.
+Another case might see Option A, Option B and Re-Open Discussion surviving from
+Stage One, then the winner between Option A and Option B would also have to beat
+Re-Open Discussion in order to be the Condorcet Winner. This extends further if
+there are more than three Options surviving from Stage One.</p>
+<p>The slightly conceptually scary thing about Condorcet is that it is possible
+there will not be a Condorcet Winner. However, this does require an unusual set
+of circumstances. Suppose, in a particular vote, Option B, Option D and Option E
+(only) survive Stage One. Suppose that furthermore, Option B is the winner of
+the Option B - Option D pair, Option E is the winner of the Option B - Option E
+pair and Option D is the winner of the Option D - Option E pair. As we do not
+have a single Option which is the winner of all the pairs of itself and the
+other surviving Options, we do not have a Condorcet Winner. Technically, we have
+a Condorcet Top Set of Option B, Option D and Option E. What happens in this
+circumstance is that Re-Open Discussion wins, regardless of whether it reached
+Stage Two or not (or even whether it appeared on the ballot paper or not).</p>
+<p>It is also possible that two (or more!?) Options might tie against each
+other, but both be the winners of all other pairs of themselves and all other
+surviving Options. (For instance, Option A, Option B and Re-Open Discussion
+might all survive to Stage Two; if Option A ties with Option B and both Options
+A and B beat Re-Open Discussion, this situation would occur.) In this case, the
+tie shall be resolved by lot. This would result in uk.*'s biggest ever coin-toss
+- but that is a bridge we should cross only when we reach it.</p>
+</body></html>

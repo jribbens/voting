@@ -1,0 +1,403 @@
+UKVoting Standardised CFV/Ballot Form v3.10
+
+NOTES:
+
+1) This is a combined CFV and Ballot Paper 
+   the bits with lines beginning CX are EXCLUDED from the CFV
+   the bits with lines beginning BX are EXCLUDED from the Ballot 
+   paper.
+   Everything else is included in both the CFV and the Ballot Paper
+   The | line indicates the votetaker will remove all but the 
+   instructions they wish to use for a vote.
+   
+2) Anything in [side these brackets] is to be replaced with a real
+   address or edited to meet the vote requirements.
+
+3) The UKVoting machine will generate a ballot ID as now and insert
+   it into the Ballot Paper. In a addition the $$FROM$$ 
+   will be replaced by the mail address to which the ballot is sent
+   this address is the address used in the results.
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+BX FIRST CALL FOR VOTES (OF 2)
+CX CALL FOR VOTES AND BALLOT PAPER
+
+[ Title of CFV ] 
+
+Votes must be received by 23:59:59 XXT, XXth Xxxxx 201N.
+
+For voting questions *only* contact
+Votetaker: Votetakername [<votetakeraddress>]
+|Secondary Votetaker: Votetakername [<secvotetakeraddress>]
+|(Please only contact the secondary votetaker in an emergency)
+
+For questions about the proposed
+       [new newsgroup/charter change/quidelines change/election]
+please contact the proponent.
+Proponent : Proponentname [<proponentaddress>]
+
+===================================================================
+
+Distribution:
+This CFV has been posted to the following newsgroups:
+uk.net.news.announce
+[uk.net.news.config / uk.net.news.management]
+
+[other news groups here]
+
+===================================================================
+
+This CFV contains the following sections.
+
+1. Rationale from the last RFD
+2. Summary of Discussion from the Proponent
+3. Changes from the last RFD from the Proponent
+4. Newsgroups line [remove for guideline changes]
+5. [Charter / Proposal]
+6. Standard Voting Instructions
+BX 7. Instructions on how to obtain a ballot paper and template
+CX 7. Ballot paper
+
+===================================================================
+
+RATIONALE from the last RFD
+
+===================================================================
+
+PROPONENT's Summary of Discussion
+
+===================================================================
+
+CHANGES from the last RFD
+
+===================================================================
+
+NEWSGROUPS LINE
+
+===================================================================
+
+[CHARTER] Group Creation
+[PROPOSAL] Guidelines
+
+===================================================================
+
+[This vote is being conducted by two Votetakers.  In the event that
+the Primary Votetaker fails to respond the Secondary Votetaker will
+take over the running of this vote.]
+
+VOTING INSTRUCTIONS
+
+If you fail to follow the instructions below your ballot paper may
+be ruled invalid. This means your vote will not be counted.
+
+1) One person, one vote.
+
+2) No two voters may vote from the same email address.
+   In the event that only one address is available to two persons
+   who both wish to vote, both these persons should contact the 
+   votetaker prior to voting.
+
+3) Votes must be emailed directly from the voter to the address
+   specified by the votetaker.
+ 
+4) There may be technical reasons, such as breaks in the email
+   headers of your ballot, which may mean that the votetaker is
+   unable to confirm the validity of your vote. The votetaker
+   will contact you if there are any irregularities.
+
+If you have followed the voting instructions correctly, you will
+receive an acknowledgement of your vote within five days from the
+votetaker.
+This does not always mean that your vote is valid. The votetaker
+will contact you if there is a problem with your vote.
+
+If you do not receive an acknowledgement of receipt of your ballot
+paper within five days you should contact the votetaker.
+
+If the acknowledgement "bounces" back to the votetaker (the mail
+containing the acknowledgment is returned as undeliverable by a
+mailserver), your vote will not be counted. 
+
+It is your responsibility to ensure that your ballot paper has been
+received by checking that the acknowledgement arrives. You should
+also check that your vote is recorded correctly in the
+acknowledgement. If there are any problems with your
+acknowledgement, you should contact the votetaker.
+
+===================================================================
+
+BX HOW TO VOTE
+BX 
+BX Please read the instructions carefully.
+BX 
+BX The email address that will be published in the results is the one
+BX that the ballot paper was sent to. So for example if a ballot paper
+BX was sent to example-voter@ukvoting.org.uk, this would be the
+BX address shown in the result. This address has to be valid,
+BX otherwise you will not receive a ballot paper.
+BX 
+BX To receive a ballot paper, you must send an email to the Ballot
+BX Request Address, which is [votename]@request.ukvoting.org.uk
+BX <URL:mailto:[votename]@request.ukvoting.org.uk>.
+BX For most news-reading software, just replying by email to this post
+BX will address your email correctly, but *please check* that the
+BX address above is actually in the To field before you send the mail.
+BX 
+BX We recognise that sometimes people submit their votes from
+BX different addresses for varying reasons, especially when more than
+BX one email address is available to a voter. If you want the results
+BX to record your vote as coming from a different address to that
+BX from which you post your request, you can do this by putting the
+BX address you want recorded in the Reply-To field in your ballot
+BX request. If you do not know how to do this, or if you are unable
+BX for whatever reason, then put the address you want recorded in the
+BX Subject line of your ballot request instead.
+BX
+BX Note: Please remember that you must be able to read email sent to
+BX the address you choose to use as your voting address, otherwise you
+BX will be unable to retrieve your ballot paper and you will be unable
+BX to vote.
+BX
+BX If you change the Subject field in your email to contain the
+BX address you want to use, it doesn't matter whether you also include
+BX your name or not, and it doesn't matter whether you enclose your
+BX voting address in <angle brackets> or not.
+BX
+BX It also doesn't matter whether you quote this entire post or
+BX delete everything when making your ballot request.
+BX 
+BX THE REPLY TO YOUR REQUEST
+BX 
+BX If the autoresponder understands your voting address in the Subject
+BX or other fields, it will send a ballot paper immediately to that
+BX address. This ballot paper will be personalised and unique to the
+BX voting address used.
+BX
+
+===================================================================
+
+CASTING YOUR VOTE
+
+BX Your personalised ballot paper will contain a ballot ID and will
+BX have your voting address prefilled for your convenience.
+
+CX Your personalised ballot paper is towards the end of this post.
+CX Your unique ballot ID and the voting address you have used are
+CX prefilled.
+
+Do not change either of these or your vote will not be valid. If
+you want to use a different voting address you must request
+another ballot paper for the new address.
+
+1) Enter the name under which you want your vote recorded in the  
+   results. This must be either your real name or the pseudonym 
+   ("handle") which you normally use to post to usenet.
+
+2) Enter the email address which you normally use to post to
+   Usenet, including the spamblock if applicable. If you use a
+   number of different email addresses, please give the most
+   recent, a typical or the most commonly used address. If, and
+   only if, you do not post to Usenet, enter the word "none".
+   Please do not enter any text in this field other than your
+   posting address or the word "none". If you have any doubt as
+   to how to complete this section, please contact the votetaker.
+
+   This section is recommended but optional and is to help the
+   votetaker verify your vote. If you do not answer this question,
+   and the votetaker cannot verify your identity from the other
+   information on the ballot, then the votetaker will need to
+   carry out further investigations which may include contacting
+   you for additional information. If you are unable or unwilling
+   to provide such information if requested, your vote might not
+   be counted.
+
+3) Mark your voting preferences, as indicated on the ballot
+   according to the instructions below.
+
+4) Send your vote.
+
+This vote is being conducted under the [Yes/No / Condorcet / STV
+procedure.]
+
+|[Yes/No instructions
+|This vote requires a simple 'yes', 'no' response as you wish 
+|The letters Y/N may be used if you prefer.]
+|
+|[Condorcet Instructions
+|The ballot consists of multiple options which will be
+|counted under the Condorcet system.
+|
+|To vote, enter '1' against your favourite option, '2'
+|against your second favourite option, and so on. 
+|
+|You may rank options the same if you have no preference
+|between them and you may leave options unmarked but are
+|requested not to do so. Unmarked options will be assumed
+|to be ranked equally, and lower than all marked options.] 
+|
+|[Single Transferable Vote (STV)
+|
+|To vote, enter '1' against your favourite candidate, '2'
+|against your second favourite candidate, and so on. 
+|You may place preferences by as many or as few options as you 
+|wish.  Options MUST NOT be ranked equally.]
+
+You may abstain, and have your abstention recorded in the results,
+by filling in one or more of the voting boxes [ ] with A or
+ABSTAIN. Similarly if you wish to Cancel a vote and have no record
+in the results, use C or CANCEL on your ballot paper, and resubmit
+it.
+
+[In a multi-part vote you may abstain in any or all parts. If you
+abstain in one part and leave all the other parts blank the whole
+vote will be treated as an abstain. If you cancel any part the
+whole vote will be treated as cancelled.]
+
+You may resubmit your ballot, with different choices, at any time
+up to the close of the vote. Your identification details on the 
+resubmitted ballot paper must be the same as earlier ones.
+Repeat votes will be resolved in favour of the last valid ballot
+paper.
+
+The purpose of this vote is to determine the genuine interest of
+persons who:
+
+[would read the proposed newsgroup]
+[read the newsgroup or would read it if modified]
+[have an interest in hierarchy placement]
+[have an interest in the effect on existing groups]
+[have an interest in changes in the guidelines]
+[have an interest in the people who represent them on the Committee]
+
+Soliciting votes from disinterested parties defeats this purpose. 
+Under no circumstances should you post your completed ballot paper
+to any Usenet/Net News newsgroup or other forum.
+
+If you ignore any of these instructions, your vote may be rejected
+as invalid. This includes, but is not limited to, any false answers
+given on the ballot paper or any attempt to circumvent the "one
+person, one vote" rule or to conceal your identity.
+
+===================================================================
+
+ACKNOWLEDGEMENT OF RECEIPT OF YOUR BALLOT PAPER
+
+The votetaker will send you an acknowledgement so that you know
+that your ballot paper has been received. This may take up to five
+days.
+If you have not received such an acknowledgement after five days,
+then contact the votetaker directly at the Votetaker's Address 
+[<votetakeraddress>] 
+<URL:mailto:<votetakeraddress>]
+
+An acknowledgement does not necessarily mean that your vote will be
+counted.
+
+===================================================================
+
+VOTE VALIDATION AND CONFIDENTIALITY
+
+The acknowledgement which you receive (see above) will contain
+details of how you voted. Check this acknowledgement carefully. If
+there are any problems, or you did not vote then contact the
+votetaker straight away.
+
+During or at the end of the vote, the votetaker will validate every
+vote submitted, and the votetaker may need to contact you
+concerning any problem or query. You must assist the votetaker's
+reasonable efforts to clarify any problem or query with regard to
+your vote otherwise your vote may not be counted. Any communication
+between the votetaker and yourself must not be considered to be
+confidential and the votetaker reserves the right to publish any
+information that the votetaker deems relevant to the vote
+within the results post.
+
+===================================================================
+
+RESULTS
+
+The names, addresses and vote preferences of all valid and invalid
+votes will be published in the results, which are posted to 
+uk.net.news.announce.
+All published email addresses will be scrambled to prevent them
+being harvested by spammers.
+[For Committee elections / Motions of No Confidence, the results
+will be published in such a manner that only you, the voter, will
+be able to see what your preferences were.]
+
+===================================================================
+
+BX The ballot paper will contain the following question(s).
+BX The question(s) are shown below so that you know what you will
+BX be asked on the ballot paper. You cannot use this to vote,
+BX you must request a ballot paper.
+
+CX The ballot paper now follows.
+CX
+CX Place your answer anywhere within the [  ]. Please ensure that
+CX the [ and ] remain on the same line. Some software, such as
+CX Outlook, is likely to move the closing bracket to the next line,
+CX which can cause problems to the votetaker and may mean that your
+CX vote cannot be counted.
+CX
+CX It does not matter if your mailer prefixes each line of your reply
+CX with a '>', or other quote mark.
+CX  
+CX Send your completed ballot to votename@vote.ukvoting.org.uk
+CX 
+CX - - - - - Delete this line and everything above it - - - - - -
+CX ================= Start of Ballot [short votename] =============== 
+CX BALLOT PAPER
+CX 
+CX Ballot ID: $$KEY$$ Do not alter this ID        
+CX
+CX Your vote will be recorded in the published results as from:
+CX Email: $$FROM$$
+CX Do not alter this address.
+CX 
+CX 1) Enter the name under which you want your vote recorded in the  
+CX    results. This must be either your real name or the pseudonym 
+CX    ("handle") which you normally use to post to usenet. If you
+CX    do not answer this question then your vote will not be counted.
+CX
+CX   Name:  [        ]
+CX
+CX 2) Enter the email address which you normally use to post
+CX    to Usenet, including the spamblock if applicable.
+CX    This is a recommended but optional question, please see
+CX    the voting instructions above for more information.
+CX
+CX   Email: [         ]
+
+[The Question(s)]
+
+(BX Version to have question without boxes for filling in response)
+(CX version to have question with boxes for filling in response.)
+
+CX You may place any comments/notes/explanations/directions to the 
+CX votetaker here:--
+CX 
+CX 
+CX ================== End of Ballot [short votename] ================ 
+CX - - - - - - - Delete this line and everything below it - - - - - - 
+===================================================================
+
+TROUBLESHOOTING
+
+If you have any problems whatsoever with this process, contact the
+votetaker directly at the Votetaker's Address
+[<votetakername@ukvoting.org.uk>] 
+<URL:mailto:[<votetakername@ukvoting.org.uk>].
+
+===================================================================
+
+VOTING AND APPEAL GUIDELINES
+
+This vote is being conducted by neutral third party members of
+UKVoting. UKVoting is a group of independent votetakers who count
+votes on CFVs on behalf of the uk.* hierarchy and other 3rd
+parties. The rules under which this vote is taken are posted
+regularly to uk.net.news.announce or can be found at the following
+URL: <http://www.usenet.org.uk/voting.html>
+
+The UKVoting web pages can be found at http://www.ukvoting.org.uk/
