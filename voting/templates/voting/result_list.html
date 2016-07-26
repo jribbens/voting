@@ -4,7 +4,7 @@
 {% block content %}
   <h1>Results of past votes</h1>
   <h2 class="center">
-    ({% if not request.GET.votetaker %}All {% endif %}{% if "non-uk" in request.GET %}non-.uk{% else %}.uk{% endif %}
+    ({% if not request.GET.votetaker %}All {% endif %}{% if "non-uk" in request.GET %}non-uk.*{% else %}uk.*{% endif %}
     votes{% if request.GET.votetaker %}, filtered by votetaker{% endif %})
   </h2>
   <p>This list of votes is as complete as was possible to collate. If you have
