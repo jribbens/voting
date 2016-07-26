@@ -13,7 +13,7 @@ app_name = "voting"
 
 urlpatterns = [
     url(r"^$", views.home, name="home"),
-    url(r"^votetakers/$", views.votetakers, name="votetakers"),
+    url(r"^votetakers$", views.votetakers, name="votetakers"),
     url(r"^statements/$", views.StatementList.as_view(), name="statements"),
     url(r"^statements/(?P<release_date>[0-9]{4}/[0-9]{2}/[0-9]{2})"
         r"/(?P<slug>[^/]*)$", views.StatementView.as_view(), name="statement"),
