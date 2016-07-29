@@ -142,8 +142,10 @@ class ElectionAdmin(admin.ModelAdmin):
         if obj.votetaker.user != request.user:
             return False
         recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
-        return bool(obj.status != Election.RESULT or
-                (obj.latest_date() or recent) > recent)
+        if (obj.status != Election.RESULT or
+                (obj.latest_date() or recent) > recent):
+            return True
+        return False
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
