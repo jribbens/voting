@@ -207,6 +207,10 @@ class Election(models.Model):
         today = timezone.now().date()
         return self.cfv_date <= today <= self.cfv_end_date
 
+    def latest_date(self):
+        """Returns the latest date associated with this election, or None."""
+        return self.result_date or self.cfv_end_date or self.cfv_date
+
 
 class Question(models.Model):
     """Question model."""

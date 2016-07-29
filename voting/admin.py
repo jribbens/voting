@@ -1,8 +1,13 @@
 """voting admin."""
 
+import datetime
+
 from django.contrib import admin
+from django.db.models import Q
+from django.utils import timezone
 
 from .models import Choice, Election, Statement, Question, Voter, Votetaker
+from .settings import RECENT_DAYS
 
 
 @admin.register(Votetaker)
@@ -101,15 +106,56 @@ class ElectionAdmin(admin.ModelAdmin):
         ),
     )
 
+    def has_module_permission(self, request):
+        if not (request.user.is_active and
+                Votetaker.objects.filter(user=request.user).exists()):
+            return False
+        return True
+
+    def has_add_permission(self, request):
+        if not (request.user.is_active and
+                Votetaker.objects.filter(user=request.user).exists()):
+            return False
+        return True
+
     def has_change_permission(self, request, obj=None):
-        return (obj is None or
-                request.user.has_perm("voting.change_choice") or
-                obj.votetaker == request.user or obj.secondary == request.user)
+        if not (request.user.is_active and
+                Votetaker.objects.filter(user=request.user).exists()):
+            return False
+        if obj is None or request.user.has_perm("voting.change_election"):
+            return True
+        if not (obj.votetaker.user == request.user or
+                (obj.secondary and obj.secondary.user == request.user)):
+            return False
+        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        if (obj.status != Election.RESULT or
+                (obj.latest_date() or recent) > recent):
+            return True
+        return False
 
     def has_delete_permission(self, request, obj=None):
-        return (obj is None or
-                request.user.has_perm("voting.delete_choice") or
-                obj.votetaker == request.user)
+        if not (request.user.is_active and
+                Votetaker.objects.filter(user=request.user).exists()):
+            return False
+        if obj is None or request.user.has_perm("voting.delete_election"):
+            return True
+        if obj.votetaker.user != request.user:
+            return False
+        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        return bool(obj.status != Election.RESULT or
+                (obj.latest_date() or recent) > recent)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if (request.user.has_perm("voting.change_election") or
+                request.user.has_perm("voting.delete_election")):
+            return qs
+        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        qs = qs.filter(Q(votetaker__user=request.user) |
+                       Q(secondary__user=request.user))
+        qs = qs.exclude(status=Election.RESULT, cfv_date__lte=recent,
+                        cfv_end_date__lte=recent, result_date__lte=recent)
+        return qs
 
 
 @admin.register(Voter)
