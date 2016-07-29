@@ -131,6 +131,12 @@ class Election(models.Model):
                                   related_name="secondary_election_set")
     votetype = models.CharField(
         "Vote type", max_length=64,
+        choices=(
+            ("Newsgroup", "Newsgroup"),
+            ("Charter Change", "Charter Change"),
+            ("Procedural", "Procedural"),
+            ("Combined", "Combined"),
+        ),
         help_text="This is just a helpful classification of what sort of"
         " election this is. Its value does not affect the operation of the"
         " election.")
