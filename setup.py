@@ -1,4 +1,4 @@
-"""dispatches setuptools information."""
+"""voting setuptools information."""
 
 import setuptools
 
