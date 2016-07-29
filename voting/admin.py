@@ -157,6 +157,13 @@ class ElectionAdmin(admin.ModelAdmin):
                         cfv_end_date__lte=recent, result_date__lte=recent)
         return qs
 
+    def get_changeform_initial_data(self, request):
+        initial = super().get_changeform_initial_data(request)
+        votetaker = Votetaker.objects.filter(user=request.user).first()
+        if votetaker:
+            initial["votetaker"] = votetaker
+        return initial
+
 
 @admin.register(Voter)
 class VoterAdmin(admin.ModelAdmin):
