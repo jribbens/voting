@@ -13,7 +13,7 @@ setuptools.setup(
     license="MIT",
     py_modules=["voting"],
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 4 - Beta",
         "Framework :: Django :: 1.9",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
