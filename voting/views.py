@@ -79,7 +79,7 @@ def statement_by_msgid(request, msgid=None):
     # pylint: disable=unused-argument
     msgid = "<" + msgid + ">"
     return redirect(
-        get_object_or_404(Statement, msgid=msgid).get_absolute_url(),
+        get_object_or_404(Statement, msgid=msgid).get_raw_url(),
         permanent=True
     )
 
@@ -134,7 +134,7 @@ def result_by_msgid(request, msgid=None):
     msgid = "<" + msgid + ">"
     return redirect(
         get_object_or_404(Election, status=Election.RESULT,
-                          result_msgid=msgid).get_result_url(),
+                          result_msgid=msgid).get_raw_result_url(),
         permanent=True
     )
 
