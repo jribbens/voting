@@ -40,6 +40,8 @@ urlpatterns = [
         pattern_name="voting:statements", permanent=True)),
     url(r"^statements/(?P<msgid>[^@]+@.*)\.txt$", views.statement_by_msgid),
     url(r"^results/(?P<msgid>[^@]+@.*)\.txt$", views.result_by_msgid),
+    url(r"^results\.php$", RedirectView.as_view(
+        pattern_name="voting:results", permanent=True)),
     url(r"^missing\.php$", RedirectView.as_view(
         pattern_name="voting:missing", permanent=True)),
     url(r"^status\.php$", RedirectView.as_view(
