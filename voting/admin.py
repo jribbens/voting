@@ -10,6 +10,15 @@ from .models import Choice, Election, Statement, Question, Voter, Votetaker
 from .settings import RECENT_DAYS
 
 
+def is_votetaker(user):
+    """Return True if the request user is an active votetaker."""
+    if not user.is_active:
+        return False
+    if user.is_superuser:
+        return True
+    return Votetaker.objects.filter(user=user).exists()
+
+
 @admin.register(Votetaker)
 class VotetakerAdmin(admin.ModelAdmin):
     """Votetaker admin class."""
@@ -101,26 +110,20 @@ class ElectionAdmin(admin.ModelAdmin):
         (None, {
             "fields": (
                 "proposal",
+                "ballot_email",
                 ),
             }
         ),
     )
 
     def has_module_permission(self, request):
-        if not (request.user.is_active and
-                Votetaker.objects.filter(user=request.user).exists()):
-            return False
-        return True
+        return is_votetaker(request.user)
 
     def has_add_permission(self, request):
-        if not (request.user.is_active and
-                Votetaker.objects.filter(user=request.user).exists()):
-            return False
-        return True
+        return is_votetaker(request.user)
 
     def has_change_permission(self, request, obj=None):
-        if not (request.user.is_active and
-                Votetaker.objects.filter(user=request.user).exists()):
+        if not is_votetaker(request.user):
             return False
         if obj is None or request.user.has_perm("voting.change_election"):
             return True
@@ -134,8 +137,7 @@ class ElectionAdmin(admin.ModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        if not (request.user.is_active and
-                Votetaker.objects.filter(user=request.user).exists()):
+        if not is_votetaker(request.user):
             return False
         if obj is None or request.user.has_perm("voting.delete_election"):
             return True
@@ -170,10 +172,48 @@ class ElectionAdmin(admin.ModelAdmin):
 @admin.register(Voter)
 class VoterAdmin(admin.ModelAdmin):
     """Voter admin class."""
+    list_display = ("election", "email", "creation_date")
+    list_display_links = ("email",)
+    search_fields = ("email", "name", "posting_address")
     fields = (
-        "email", "name", "posting_address", "accepted", "notes",
+        "election", "email", "name", "posting_address", "accepted", "notes",
         "creation_date", "vote_date", "comments", "email_headers"
     )
     readonly_fields = (
-        "email", "creation_date", "vote_date", "comments", "email_headers"
+        "election", "email", "creation_date", "vote_date", "comments",
+        "email_headers"
     )
+
+    def has_module_permission(self, request):
+        return is_votetaker(request.user)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        if not is_votetaker(request.user):
+            return False
+        if obj is None or request.user.has_perm("voting.change_voter"):
+            return True
+        election = obj.election
+        if not (election.votetaker.user == request.user or
+                (election.secondary and
+                 election.secondary.user == request.user)):
+            return False
+        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        if (election.status != Election.RESULT or
+                (election.latest_date() or recent) > recent):
+            return True
+        return False
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if (request.user.has_perm("voting.change_voter") or
+                request.user.has_perm("voting.delete_voter")):
+            return qs
+        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        qs = qs.filter(Q(election__votetaker__user=request.user) |
+                       Q(election__secondary__user=request.user))
+        qs = qs.exclude(status=Election.RESULT, cfv_date__lte=recent,
+                        cfv_end_date__lte=recent, result_date__lte=recent)
+        return qs
