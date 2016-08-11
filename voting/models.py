@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 
+from .fields import EmailListField
+
 
 SECRET_LENGTH = 8 # Length in bytes of the Election.secret field.
 
@@ -183,6 +185,12 @@ class Election(models.Model):
         help_text=" It is vital to keep this status up-to-date. If the election"
         " is not in the 'Voting in progress' status then votes will not be"
         " accepted.")
+    ballot_email = EmailListField(
+        max_length=254, blank=True,
+        help_text="If specified, this enables ballots-by-email. Ballot papers"
+        " are automatically createed from the 'Proposal' field (which must"
+        " contain the string $KEY$ for the voter's secret key). Completed"
+        " votes are forwarded to all addresses in this comma-separated list.")
     secret = models.BinaryField(
         max_length=SECRET_LENGTH, default=_generate_secret)
 
@@ -257,24 +265,23 @@ class Choice(models.Model):
 
 class Voter(models.Model):
     """Voter model."""
-    key = models.UUIDField(default=uuid.uuid4, editable=False)
+    key = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     election = models.ForeignKey(Election, editable=False)
     email = models.EmailField(
-        db_index=True,
         help_text="The address the ballot key was emailed to.")
     creation_date = models.DateTimeField(
         auto_now_add=True,
         help_text="The date/time this voter first requested a ballot key for"
         " this election.")
     vote_date = models.DateTimeField(
-        blank=True,
+        blank=True, null=True,
         help_text="The date/time of the most recent vote submitted by this"
         " voter for this election.")
     name = models.CharField(
-        max_length=128, blank=True, db_index=True,
+        max_length=128, blank=True,
         help_text="The voter's 'name', as supplied by them.")
     posting_address = models.CharField(
-        max_length=128, blank=True, db_index=True,
+        max_length=128, blank=True,
         help_text="The voter's 'usual posting address', as supplied by them.")
     comments = models.TextField(
         blank=True,
@@ -288,6 +295,9 @@ class Voter(models.Model):
     email_headers = models.TextField(
         help_text="The headers of the first email received requesting"
         " a ballot key.")
+
+    class Meta:
+        unique_together = ("election", "email")
 
     def __str__(self):
         return self.email
