@@ -13,9 +13,6 @@ from django.utils import timezone
 from .fields import EmailListField
 
 
-SECRET_LENGTH = 8 # Length in bytes of the Election.secret field.
-
-
 def _validate_messageid(value):
     """Validate value as a Usenet Message-ID."""
     if len(value) > 250 or not re.match(r"""
@@ -99,11 +96,6 @@ class Statement(models.Model):
     class Meta:
         ordering = ("-release_date",)
         unique_together = ("release_date", "slug")
-
-
-def _generate_secret():
-    """Generate a value for the 'Election.secret' field."""
-    return os.urandom(SECRET_LENGTH)
 
 
 def _validate_shortname(value):
@@ -191,8 +183,6 @@ class Election(models.Model):
         " are automatically createed from the 'Proposal' field (which must"
         " contain the string $KEY$ for the voter's secret key). Completed"
         " votes are forwarded to all addresses in this comma-separated list.")
-    secret = models.BinaryField(
-        max_length=SECRET_LENGTH, default=_generate_secret)
 
     class Meta:
         ordering = ("-cfv_date",)
