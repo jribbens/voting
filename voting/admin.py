@@ -214,6 +214,8 @@ class VoterAdmin(admin.ModelAdmin):
         recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
         qs = qs.filter(Q(election__votetaker__user=request.user) |
                        Q(election__secondary__user=request.user))
-        qs = qs.exclude(status=Election.RESULT, cfv_date__lte=recent,
-                        cfv_end_date__lte=recent, result_date__lte=recent)
+        qs = qs.exclude(election__status=Election.RESULT,
+                        election__cfv_date__lte=recent,
+                        election__cfv_end_date__lte=recent,
+                        election__result_date__lte=recent)
         return qs
