@@ -141,10 +141,12 @@ class Election(models.Model):
         " changes from the last RFD, and proposal, from the CFV.")
     cfv_date = models.DateField(
         "CFV date", blank=True, null=True, db_index=True,
-        help_text="Votes received before this date will not be accepted.")
+        help_text="Votes received before this date"
+        " (or if this date is not provided) will not be accepted.")
     cfv_end_date = models.DateField(
         "CFV end date", blank=True, null=True,
-        help_text="Votes received after this date will not be accepted.")
+        help_text="Votes received after this date"
+        " (or if this date is not provided) will not be accepted.")
     cfv_msgid = MessageIDField(
         "CFV Message-ID", blank=True,
         help_text="Fill this in with the Message-ID (including angle brackets)"
