@@ -106,10 +106,15 @@ class Command(BaseCommand):
                 "Sorry, that election is not currently accepting votes.\n")
             sys.exit(os.EX_NOUSER)
         msg = message_from_bytes(raw_msg)
+        raw_decoded = b"\n".join(
+            part.get_payload(decode=True)
+            for part in msg.walk()
+            if not part.is_multipart()
+        )
         voter = None
         for secret in re.findall(
                 rb"[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}",
-                raw_msg):
+                raw_msg + b"\n" + raw_decoded):
             voter = Voter.objects.filter(
                 election=election, key=UUID(secret.decode("ascii"))).first()
             if voter:
