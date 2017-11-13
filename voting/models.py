@@ -1,6 +1,5 @@
 """voting models."""
 
-import os
 import re
 import uuid
 
@@ -137,8 +136,8 @@ class Election(models.Model):
     proposal = models.TextField(
         blank=True,
         help_text="This text is displayed to the voter when they are filling"
-        " in their vote. It should match the rationale, summary of discussion,"
-        " changes from the last RFD, and proposal, from the CFV.")
+        " in their vote. It should match the rationale, summary of"
+        " discussion, changes from the last RFD, and proposal, from the CFV.")
     cfv_date = models.DateField(
         "CFV date", blank=True, null=True, db_index=True,
         help_text="Votes received before this date"
@@ -149,16 +148,16 @@ class Election(models.Model):
         " (or if this date is not provided) will not be accepted.")
     cfv_msgid = MessageIDField(
         "CFV Message-ID", blank=True,
-        help_text="Fill this in with the Message-ID (including angle brackets)"
-        " of the CFV once it appears.")
+        help_text="Fill this in with the Message-ID (including angle"
+        " brackets) of the CFV once it appears.")
     cfv = models.TextField("CFV", editable=False)
     result_date = models.DateField(
         blank=True, null=True,
         help_text="Fill this in with the date the results posting appears.")
     result_msgid = MessageIDField(
         "Result Message-ID", blank=True,
-        help_text="Fill this in with the Message-ID (including angle brackets)"
-        " of the results posting once it appears.")
+        help_text="Fill this in with the Message-ID (including angle"
+        " brackets) of the results posting once it appears.")
     result = models.TextField(editable=False)
     uk_vote = models.BooleanField(
         "uk.* vote", default=True,
@@ -176,9 +175,9 @@ class Election(models.Model):
             (RESULT, "Result issued"),
             (ABANDONED, "Abandoned"),
         ),
-        help_text=" It is vital to keep this status up-to-date. If the election"
-        " is not in the 'Voting in progress' status then votes will not be"
-        " accepted.")
+        help_text=" It is vital to keep this status up-to-date. If the"
+        " election is not in the 'Voting in progress' status then votes will"
+        " not be accepted.")
     ballot_email = EmailListField(
         max_length=254, blank=True,
         help_text="If specified, this enables ballots-by-email. Ballot papers"

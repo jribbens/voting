@@ -18,7 +18,8 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         imported = 0
-        with open(options["filename"], encoding="ascii", newline="") as csvfile:
+        with open(options["filename"], encoding="ascii",
+                  newline="") as csvfile:
             for row in csv.reader(csvfile):
                 title, release_date, msgid = row[1:]
                 release_date = datetime.datetime.strptime(

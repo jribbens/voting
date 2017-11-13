@@ -44,7 +44,6 @@ class VotetakerAdmin(admin.ModelAdmin):
     active.boolean = True
 
 
-
 @admin.register(Statement)
 class StatementAdmin(admin.ModelAdmin):
     """Statement admin class."""
@@ -83,7 +82,7 @@ class ElectionAdmin(admin.ModelAdmin):
                 "uk_vote",
                 ),
             }
-        ),
+         ),
         ("Administration", {
             "fields": (
                 "status",
@@ -91,7 +90,7 @@ class ElectionAdmin(admin.ModelAdmin):
                 "hidden",
                 ),
             }
-        ),
+         ),
         ("CFV", {
             "fields": (
                 "cfv_date",
@@ -99,21 +98,21 @@ class ElectionAdmin(admin.ModelAdmin):
                 "cfv_msgid",
                 ),
             }
-        ),
+         ),
         ("Result", {
             "fields": (
                 "result_date",
                 "result_msgid",
                 ),
             }
-        ),
+         ),
         (None, {
             "fields": (
                 "proposal",
                 "ballot_email",
                 ),
             }
-        ),
+         ),
     )
 
     def has_module_permission(self, request):
@@ -130,7 +129,8 @@ class ElectionAdmin(admin.ModelAdmin):
         if not (obj.votetaker.user == request.user or
                 (obj.secondary and obj.secondary.user == request.user)):
             return False
-        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        recent = (timezone.now() - datetime.timedelta(
+            days=RECENT_DAYS)).date()
         if (obj.status != Election.RESULT or
                 (obj.latest_date() or recent) > recent):
             return True
@@ -143,7 +143,8 @@ class ElectionAdmin(admin.ModelAdmin):
             return True
         if obj.votetaker.user != request.user:
             return False
-        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        recent = (timezone.now() - datetime.timedelta(
+            days=RECENT_DAYS)).date()
         if (obj.status != Election.RESULT or
                 (obj.latest_date() or recent) > recent):
             return True
@@ -154,7 +155,8 @@ class ElectionAdmin(admin.ModelAdmin):
         if (request.user.has_perm("voting.change_election") or
                 request.user.has_perm("voting.delete_election")):
             return qs
-        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        recent = (timezone.now() - datetime.timedelta(
+            days=RECENT_DAYS)).date()
         qs = qs.filter(Q(votetaker__user=request.user) |
                        Q(secondary__user=request.user))
         qs = qs.exclude(status=Election.RESULT, cfv_date__lte=recent,
@@ -200,7 +202,8 @@ class VoterAdmin(admin.ModelAdmin):
                 (election.secondary and
                  election.secondary.user == request.user)):
             return False
-        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        recent = (timezone.now() - datetime.timedelta(
+            days=RECENT_DAYS)).date()
         if (election.status != Election.RESULT or
                 (election.latest_date() or recent) > recent):
             return True
@@ -211,7 +214,8 @@ class VoterAdmin(admin.ModelAdmin):
         if (request.user.has_perm("voting.change_voter") or
                 request.user.has_perm("voting.delete_voter")):
             return qs
-        recent = (timezone.now() - datetime.timedelta(days=RECENT_DAYS)).date()
+        recent = (timezone.now() - datetime.timedelta(
+            days=RECENT_DAYS)).date()
         qs = qs.filter(Q(election__votetaker__user=request.user) |
                        Q(election__secondary__user=request.user))
         qs = qs.exclude(election__status=Election.RESULT,

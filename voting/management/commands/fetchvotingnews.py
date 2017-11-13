@@ -51,6 +51,7 @@ class Command(BaseCommand):
             if not exc.response.startswith("430"):
                 # pylint: disable=no-member
                 self.stdout.write(self.style.NOTICE(
-                    "Failed to fetch article {}: {!r}".format(msgid, response)))
+                    "Failed to fetch article {}: {!r}".format(
+                        msgid, response)))
                 # pylint: enable=no-member
             return ""

@@ -16,7 +16,8 @@ urlpatterns = [
     url(r"^votetakers$", views.votetakers, name="votetakers"),
     url(r"^statements/$", views.StatementList.as_view(), name="statements"),
     url(r"^statements/(?P<release_date>[0-9]{4}/[0-9]{2}/[0-9]{2})"
-        r"/(?P<slug>[^/]*)$", views.StatementView.as_view(), name="statement"),
+        r"/(?P<slug>[^/]*)$", views.StatementView.as_view(),
+        name="statement"),
     url(r"^statements/(?P<release_date>[0-9]{4}/[0-9]{2}/[0-9]{2})"
         r"/(?P<slug>[^/]*)/raw$", views.statement_raw, name="statement_raw"),
     url(r"^results/$", views.ResultList.as_view(), name="results"),

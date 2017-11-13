@@ -180,7 +180,8 @@ def status(request):
     active = Election.objects.exclude(hidden=True).filter(
         status=Election.ACTIVE, cfv_end_date__gte=today
         ).order_by("-cfv_end_date")
-    setup = Election.objects.exclude(hidden=True).filter(status=Election.SETUP)
+    setup = Election.objects.exclude(hidden=True).filter(
+        status=Election.SETUP)
     return render(
         request, "voting/status.html", {
             "count": count,

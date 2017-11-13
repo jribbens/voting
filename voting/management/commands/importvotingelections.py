@@ -61,7 +61,8 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         imported = 0
-        with open(options["filename"], encoding="ascii", newline="") as csvfile:
+        with open(options["filename"], encoding="ascii",
+                  newline="") as csvfile:
             for row in csv.reader(csvfile):
                 title = row[1]
                 shortname = row[13] or None

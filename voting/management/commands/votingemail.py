@@ -121,7 +121,8 @@ class Command(BaseCommand):
                 break
         if not voter:
             self.stdout.write(
-                "Sorry, but we could not find your voter key in your email.\n")
+                "Sorry, but we could not find your voter key"
+                " in your email.\n")
             sys.exit(os.EX_DATAERR)
         EmailMessage(
             subject="Voting paper for election: " + election.title,
