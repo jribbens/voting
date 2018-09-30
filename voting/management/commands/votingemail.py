@@ -137,6 +137,7 @@ class Command(BaseCommand):
         ).send()
         voter.vote_date = timezone.now()
         voter.save()
+        voter.vote_emails.create(email=msg.as_string())
 
     def handle_bounce(self, election, sender, raw_msg):
         """Handle an email bouncing a ballot paper."""

@@ -316,3 +316,10 @@ class Vote(models.Model):
 
     def __str__(self):
         return str(self.choice)
+
+
+class Email(models.Model):
+    """Email model to record votes received by email."""
+    voter = models.ForeignKey(Voter, related_name="vote_emails")
+    received_date = models.DateTimeField(auto_now_add=True)
+    email = models.TextField()
