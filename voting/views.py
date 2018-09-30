@@ -62,7 +62,6 @@ class StatementView(DetailView):
 
 def statement_raw(request, release_date=None, slug=None):
     """Return the raw text of a statement."""
-    # pylint: disable=unused-argument
     return HttpResponse(
         get_object_or_404(
             Statement,
@@ -76,7 +75,6 @@ def statement_raw(request, release_date=None, slug=None):
 
 def statement_by_msgid(request, msgid=None):
     """Return a redirect to the proper URL for a statement."""
-    # pylint: disable=unused-argument
     msgid = "<" + msgid + ">"
     return redirect(
         get_object_or_404(Statement, msgid=msgid).get_raw_url(),
@@ -130,7 +128,6 @@ class ResultView(DetailView):
 
 def result_by_msgid(request, msgid=None):
     """Return a redirect to the proper URL for a result."""
-    # pylint: disable=unused-argument
     msgid = "<" + msgid + ">"
     return redirect(
         get_object_or_404(Election, status=Election.RESULT,
@@ -141,7 +138,6 @@ def result_by_msgid(request, msgid=None):
 
 def result_raw(request, key=None):
     """Return the raw text of a statement."""
-    # pylint: disable=unused-argument
     if key.isdigit():
         result = get_object_or_404(Election, status=Election.RESULT,
                                    id=key).result

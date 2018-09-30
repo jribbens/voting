@@ -13,7 +13,6 @@ class EmailList(list):
 
 class EmailListValidator(EmailValidator):
     """Validate a list of email addresses."""
-    # pylint: disable=too-few-public-methods
 
     def __call__(self, value):
         for email in value:

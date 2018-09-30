@@ -10,7 +10,6 @@ from . import settings
 
 def connect(url=None):
     """Return an NNTP connection to the news server."""
-    # pylint: disable=redefined-variable-type
     url = urlparse(url or settings.NEWS_SERVER)
     if url.scheme == "nntp":
         conn = nntplib.NNTP(url.hostname, url.port or 119)

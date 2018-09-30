@@ -33,10 +33,8 @@ class Command(BaseCommand):
             help="The election the email relates to",
         )
 
-    def handle(self, **options):
-        # pylint: disable=no-member
+    def handle(self, *args, **options):
         raw_msg = sys.stdin.buffer.read()
-        # pylint: enable=no-member
         election = Election.objects.filter(
             shortname__iexact=options["election"]).first()
         if not election:

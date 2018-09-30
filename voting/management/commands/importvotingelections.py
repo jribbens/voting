@@ -59,7 +59,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("filename")
 
-    def handle(self, **options):
+    def handle(self, *args, **options):
         imported = 0
         with open(options["filename"], encoding="ascii",
                   newline="") as csvfile:
@@ -95,8 +95,6 @@ class Command(BaseCommand):
                     status=status,
                 ).save()
                 imported += 1
-            # pylint: disable=no-member
             self.stdout.write(self.style.SUCCESS(
                 "Imported {} election(s)".format(imported)
             ))
-            # pylint: enable=no-member

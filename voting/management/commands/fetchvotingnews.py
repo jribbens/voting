@@ -13,7 +13,7 @@ class Command(BaseCommand):
     """Import voting statements, cfvs and results from the NNTP server."""
     help = "Import voting statements, cfvs and results from the NNTP server."
 
-    def handle(self, **options):
+    def handle(self, *args, **options):
         conn = None
         for statement in Statement.objects.filter(statement=""):
             conn = conn or nntp.connect()
@@ -49,9 +49,7 @@ class Command(BaseCommand):
             raise nntplib.NNTPError(response)
         except nntplib.NNTPError as exc:
             if not exc.response.startswith("430"):
-                # pylint: disable=no-member
                 self.stdout.write(self.style.NOTICE(
                     "Failed to fetch article {}: {!r}".format(
                         msgid, response)))
-                # pylint: enable=no-member
             return ""

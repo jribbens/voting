@@ -25,7 +25,7 @@ def fetch_asn_info(ipaddr):
     try:
         answers = dns.resolver.query(qname, "TXT")
     except dns.exception.DNSException:
-        return
+        return None
     answer = answers[0].strings[0]
     qname = "as" + answer.split("|", 1)[0].strip() + ".asn.cymru.com"
     try:

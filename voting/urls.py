@@ -6,9 +6,7 @@ from django.views.generic.base import RedirectView, TemplateView
 from . import views
 
 
-# pylint: disable=invalid-name
 app_name = "voting"
-# pylint: enable=invalid-name
 
 
 urlpatterns = [
