@@ -6,3 +6,6 @@ exclude = \.min\.js$
 
 [python]
 exclude = /migrations/
+
+[text]
+exclude = ^voting/static/voting/template\.txt 
