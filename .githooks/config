@@ -1,0 +1,8 @@
+[html]
+max-line-length = 250
+
+[javascript]
+exclude = \.min\.js$
+
+[python]
+exclude = /migrations/

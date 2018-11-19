@@ -1,0 +1,324 @@
+#!/usr/bin/env python
+
+# pylint: disable=invalid-name
+
+"""git pre-commit checks."""
+
+__version__ = '0.03 (2018-08-13)'
+
+import argparse
+import ast
+try:
+    from configparser import DEFAULTSECT, ConfigParser
+except ImportError:
+    from ConfigParser import DEFAULTSECT, SafeConfigParser as ConfigParser
+import errno
+import io
+import os
+import os.path
+import re
+import stat
+import subprocess
+import sys
+
+
+CONFIG_FILE = '.githooks/config'
+CONFIG_DEFAULTS = r"""
+[DEFAULT]
+exclude = ^\.githooks/ (^|/)vendor/ (^|/)node_modules/
+max-size = 10485760
+ban-cr = true
+ban-tabs = true
+ban-trailing-whitespace = true
+max-line-length = 79
+
+[types]
+type-python = \.py$ `#!.*python
+type-html = \.html?$
+type-css = \.css$
+type-javascript = \.js$
+type-text = \.txt$
+type-c = \.c$ \.h$
+
+[python]
+syntax = true
+flake8 = true
+
+[html]
+
+[css]
+
+[javascript]
+standard = true
+
+[text]
+
+[c]
+"""
+
+try:
+    CONFIG_DEFAULTS = CONFIG_DEFAULTS.decode('ascii')
+except AttributeError:
+    pass
+
+
+class CheckError(Exception):
+    """An error requiring immediate termination of the checks."""
+
+
+def assignProblem(targets, filename, problem):
+    """Find a target to assign the problem to."""
+    for target in targets:
+        if target.filename == filename or target.fullpath == filename:
+            target.problems.append(problem)
+            break
+
+
+def check_text(config, section, targets):
+    """Check text files for tabs, trailing whitespace, bad line endings."""
+    for target in targets:
+        if config.getboolean(section, 'ban-tabs'):
+            if b"\t" in target.contents:
+                target.problems.append("contains tabs")
+        if config.getboolean(section, 'ban-cr'):
+            if b"\r" in target.contents:
+                target.problems.append('contains \\r')
+        if config.getboolean(section, 'ban-trailing-whitespace'):
+            if re.search(br'[ \t]$', target.contents, re.MULTILINE):
+                target.problems.append("trailing whitespace")
+        linelen = config.getint(section, 'max-line-length')
+        if linelen > 0:
+            if re.search((r'[^\n]{%d}$' % (linelen + 1,)).encode('ascii'),
+                         target.contents, re.MULTILINE):
+                target.problems.append(
+                    'line(s) over %d characters' % (linelen,))
+
+
+def check_python(config, section, targets):
+    """Check Python files for text issues, syntax errors, and PEP 8."""
+    check_text(config, section, targets)
+    if config.getboolean(section, 'syntax'):
+        for target in targets:
+            try:
+                ast.parse(target.contents, filename='python')
+            except (ValueError, SyntaxError) as exc:
+                target.problems.append(str(exc))
+    if config.getboolean(section, 'flake8'):
+        try:
+            subprocess.check_output(['flake8', '--version'])
+        except (OSError, subprocess.CalledProcessError):
+            raise CheckError(
+                'Cannot run flake8 - is the virtualenv enabled?')
+        try:
+            for line in subprocess.check_output(
+                    ['flake8', '--max-line-length=999', '--format=pylint',
+                     '--exit-zero', '--'] +
+                    [target.filename for target in targets]).decode(
+                        'iso-8859-1').split('\n'):
+                match = re.match(r'^(.*):\d+: ', line)
+                if match:
+                    assignProblem(
+                        targets, match.group(1), 'flake8 complaints')
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise CheckError('error calling flake8: %s' % (exc,))
+
+
+def check_html(config, section, targets):
+    """Check HTML files for text problems."""
+    check_text(config, section, targets)
+
+
+def check_css(config, section, targets):
+    """Check CSS files for text problems."""
+    check_text(config, section, targets)
+
+
+def check_javascript(config, section, targets):
+    """Check JavaScript files conforms to standardjs."""
+    check_text(config, section, targets)
+    if config.getboolean(section, 'standard'):
+        try:
+            subprocess.check_output(['standard', '--version'])
+        except (OSError, subprocess.CalledProcessError):
+            raise CheckError('Cannot run \'standard\' - is it installed?')
+        try:
+            output = subprocess.check_output(
+                ['standard', '--'] +
+                [target.filename for target in targets],
+                stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as exc:
+            output = exc.output
+        for line in output.decode('iso-8859-1').split('\n'):
+            match = re.match(r'^ *([^ ].*):\d+:\d+: ', line)
+            if match:
+                assignProblem(
+                    targets, match.group(1), 'standardjs complaints')
+
+
+def check_c(config, section, targets):
+    """Check C files for text problems."""
+    check_text(config, section, targets)
+
+
+def getConfig(config_file, overrides=None):
+    """Return configuration settings."""
+    # pylint: disable=deprecated-method
+    config = ConfigParser()
+    if hasattr(config, 'read_file'):
+        config.read_file(io.StringIO(CONFIG_DEFAULTS))
+    else:
+        config.readfp(io.StringIO(CONFIG_DEFAULTS))
+    if not config_file.startswith('/') and os.getcwd() != '/':
+      for up in range(len(os.getcwd().split('/'))):
+        try:
+          os.stat('../' * up + config_file)
+          config_file = '../' * up + config_file
+          break
+        except OSError as exc:
+          if exc.errno == errno.ENOENT:
+            continue
+          raise
+    config.read(config_file)
+    for override in overrides or ():
+        option, value = override.split('=', 1)
+        if '.' in option:
+            section, option = option.split('.', 1)
+        else:
+            section = DEFAULTSECT
+        config.set(section, option, value)
+    return config
+
+
+class Target(object):
+    """A check target, with filename, contents, and problems list."""
+    def __init__(self, filename, contents):
+        self.filename = filename
+        self.contents = contents
+        self.fullpath = os.path.abspath(filename)
+        self.problems = []
+
+    def __repr__(self):
+        if self.problems:
+            return '<Target %r (%d bytes, %d problems)>' % (
+                self.filename, len(self.contents), self.problems)
+        return '<Target %r (%d bytes)>' % (self.filename, len(self.contents))
+
+    def __str__(self):
+        return self.__repr__()
+
+
+def findType(config, filename, contents):
+    """Determine the type of this file by its filename and contents."""
+    for type_name, regexps in config.items('types'):
+        type_name = type_name.lower()
+        if not type_name.startswith('type-'):
+            continue
+        type_name = type_name[5:]
+        if not 'check_' + type_name in globals():
+            raise Exception('Unknown type %s' % (type_name,))
+        for regexp in regexps.split():
+            if regexp.startswith('`'):
+                if re.search(regexp[1:].encode('utf-8'), contents[:1024]):
+                    return type_name
+            else:
+                if re.search(regexp, filename):
+                    return type_name
+    return None
+
+
+def checkExclusions(config, section, filename):
+    """Check if the filename is on the exclusions list."""
+    for regexp in config.get(section, 'exclude').split():
+        if re.search(regexp, filename):
+            return True
+    return False
+
+
+def allFiles():
+    """Return a list of all the filenames, recursing into subdirectories."""
+    return [filename for filename in subprocess.check_output(
+        ['git', 'ls-files', '-cmo', '--exclude-standard', '-z']
+    ).decode('iso-8859-1').split('\0') if filename]
+
+
+def stagedFiles():
+    """Return a list of the staged filenames."""
+    return [filename for filename in subprocess.check_output(
+        ['git', 'diff', '--cached', '--name-only', '--diff-filter=ACM', '-z']
+    ).decode('iso-8859-1').split('\0') if filename]
+
+
+def doChecks(config, filenames, verbose=False):
+    """Do pre-commit checks and return process exit code."""
+    types = {}
+    seen = set()
+    for filename in filenames:
+        if filename in seen:
+            continue
+        seen.add(filename)
+        if checkExclusions(config, DEFAULTSECT, filename):
+            continue
+        fstat = os.stat(filename)
+        if (not stat.S_ISREG(fstat.st_mode) or
+                fstat.st_size > config.getint(DEFAULTSECT, 'max-size')):
+            continue
+        with open(filename, 'rb') as fp:
+            contents = fp.read()
+        type_name = findType(config, filename, contents)
+        if type_name:
+            if checkExclusions(config, type_name, filename):
+                continue
+            types.setdefault(type_name, []).append(
+                Target(filename, contents))
+    status = 0
+    for type_name, targets in types.items():
+        try:
+            globals().get('check_' + type_name)(config, type_name, targets)
+        except CheckError as exc:
+            sys.stderr.write('pre-commit error: %s\n' % (exc,))
+            return 1
+        for target in targets:
+            if target.problems:
+                status = 1
+                for problem in target.problems:
+                    sys.stderr.write('%s: %s\n' % (target.filename, problem))
+            elif verbose:
+                sys.stderr.write('%s: ok\n' % (target.filename,))
+    return status
+
+
+def main():
+    """Main entry point."""
+    parser = argparse.ArgumentParser(description='git pre-commit checks')
+    parser.add_argument(
+        '--all', '-a', action='store_true', default=False,
+        help='check all files rather than just staged files')
+    parser.add_argument(
+        '--config', '-c', action='append', default=[],
+        help='override an option, e.g. -c python.max-line-length=80')
+    parser.add_argument(
+        '--config-file', '-f', metavar='FILENAME', default=CONFIG_FILE,
+        help='specify the config file to load')
+    parser.add_argument(
+        '--staged', '-s', action='store_true', default=False,
+        help='check staged files (default if no filenames are specified)')
+    parser.add_argument(
+        '--verbose', '-v', action='store_true', default=False,
+        help='show status of all files instead of just problems')
+    parser.add_argument(
+        '--version', action='version', version=__version__)
+    parser.add_argument(
+        'files', metavar='FILENAME', nargs='*',
+        help='additional files to check')
+    args = parser.parse_args()
+    files = args.files
+    if args.staged or not args.files:
+        files.extend(stagedFiles())
+    if args.all:
+        files.extend(allFiles())
+    return doChecks(
+        getConfig(args.config_file, args.config), files, args.verbose)
+
+
+if __name__ == '__main__':
+    sys.exit(main())
