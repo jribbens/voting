@@ -1,0 +1,11 @@
+[html]
+max-line-length = 250
+
+[javascript]
+exclude = \.min\.js$
+
+[python]
+exclude = /migrations/
+
+[text]
+exclude = ^voting/static/voting/template\.txt 
