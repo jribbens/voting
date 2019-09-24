@@ -20,7 +20,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3 :: Only",
     ],
     install_requires=[
-        "Django>=1.9",
+        "Django<2",
         "dnspython3>=1.12",
     ]
 )
