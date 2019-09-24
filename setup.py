@@ -21,6 +21,6 @@ setuptools.setup(
     ],
     install_requires=[
         "Django<2",
-        "dnspython3>=1.12",
+        "dnspython<2",
     ]
 )
