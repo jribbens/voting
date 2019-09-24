@@ -1,4 +1,4 @@
-UKVoting Standardised CFV/Ballot Form v3.10
+UKVoting Standardised CFV/Ballot Form v3.11
 
 NOTES:
 
@@ -24,7 +24,7 @@ CX CALL FOR VOTES AND BALLOT PAPER
 
 [ Title of CFV ] 
 
-Votes must be received by 23:59:59 XXT, XXth Xxxxx 201N.
+Votes must be received by 23:59:59 XXT, XXth Xxxxx 20NN.
 
 For voting questions *only* contact
 Votetaker: Votetakername [<votetakeraddress>]
@@ -400,4 +400,4 @@ parties. The rules under which this vote is taken are posted
 regularly to uk.net.news.announce or can be found at the following
 URL: <http://www.usenet.org.uk/voting.html>
 
-The UKVoting web pages can be found at http://www.ukvoting.org.uk/
+The UKVoting web pages can be found at https://ukvoting.org.uk/
