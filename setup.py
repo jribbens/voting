@@ -14,13 +14,13 @@ setuptools.setup(
     py_modules=["voting"],
     classifiers=[
         "Development Status :: 4 - Beta",
-        "Framework :: Django :: 1.9",
+        "Framework :: Django :: 3.0",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
     ],
     install_requires=[
-        "Django<2",
+        "Django<4",
         "dnspython<2",
     ]
 )

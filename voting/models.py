@@ -5,7 +5,7 @@ import uuid
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 
@@ -43,7 +43,8 @@ class MessageIDField(models.CharField):
 
 class Votetaker(models.Model):
     """Votetaker model - effectively an extension to the django user."""
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE)
     role = models.CharField(
         max_length=128, blank=True,
         help_text="The votetaker's 'job title', if any.")
@@ -81,14 +82,14 @@ class Statement(models.Model):
     def get_absolute_url(self):
         """Return the canonical URL for this statement."""
         return reverse("voting:statement", kwargs={
-            "release_date": self.release_date.strftime("%Y/%m/%d"),
+            "release_date": self.release_date,
             "slug": self.slug,
         })
 
     def get_raw_url(self):
         """Return the canonical URL for the raw version of this statement."""
         return reverse("voting:statement_raw", kwargs={
-            "release_date": self.release_date.strftime("%Y/%m/%d"),
+            "release_date": self.release_date,
             "slug": self.slug,
         })
 
@@ -119,9 +120,11 @@ class Election(models.Model):
         help_text="This is a unique short identifier for the vote."
         " It will be used as the username part of the email"
         " address for voters to request their ballot key.")
-    votetaker = models.ForeignKey(Votetaker, null=True)
-    secondary = models.ForeignKey(Votetaker, null=True, blank=True,
-                                  related_name="secondary_election_set")
+    votetaker = models.ForeignKey(
+        Votetaker, null=True, on_delete=models.SET_NULL)
+    secondary = models.ForeignKey(
+        Votetaker, null=True, blank=True, on_delete=models.SET_NULL,
+        related_name="secondary_election_set")
     votetype = models.CharField(
         "Vote type", max_length=64,
         choices=(
@@ -223,7 +226,7 @@ class Question(models.Model):
     STV = "stv"
     CONDORCET = "condorcet"
     FREEFORM = "freeform"
-    election = models.ForeignKey(Election)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
     question = models.CharField(
         max_length=254,
         help_text="The question the voter is answering.")
@@ -247,7 +250,7 @@ class Question(models.Model):
 
 class Choice(models.Model):
     """Choice model."""
-    question = models.ForeignKey(Question)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice = models.CharField(max_length=254)
 
     def __str__(self):
@@ -257,7 +260,8 @@ class Choice(models.Model):
 class Voter(models.Model):
     """Voter model."""
     key = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    election = models.ForeignKey(Election, editable=False)
+    election = models.ForeignKey(
+        Election, editable=False, on_delete=models.CASCADE)
     email = models.EmailField(
         help_text="The address the ballot key was emailed to.")
     creation_date = models.DateTimeField(
@@ -296,7 +300,7 @@ class Voter(models.Model):
 
 class VoterIPAddress(models.Model):
     """Model for the IP addresses seen in use by a voter."""
-    voter = models.ForeignKey(Voter)
+    voter = models.ForeignKey(Voter, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     ip_address = models.GenericIPAddressField(
         "IP address", unpack_ipv4=True, db_index=True)
@@ -311,8 +315,8 @@ class VoterIPAddress(models.Model):
 
 class Vote(models.Model):
     """Vote model."""
-    voter = models.ForeignKey(Voter)
-    choice = models.ForeignKey(Choice)
+    voter = models.ForeignKey(Voter, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.choice)
@@ -320,6 +324,7 @@ class Vote(models.Model):
 
 class Email(models.Model):
     """Email model to record votes received by email."""
-    voter = models.ForeignKey(Voter, related_name="vote_emails")
+    voter = models.ForeignKey(
+        Voter, related_name="vote_emails", on_delete=models.CASCADE)
     received_date = models.DateTimeField(auto_now_add=True)
     email = models.TextField()

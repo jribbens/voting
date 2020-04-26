@@ -45,8 +45,7 @@ class StatementView(DetailView):
             queryset = self.get_queryset()
         try:
             return queryset.get(
-                release_date=datetime.datetime.strptime(
-                    self.kwargs["release_date"], "%Y/%m/%d").date(),
+                release_date=self.kwargs["release_date"],
                 slug=self.kwargs["slug"],
             )
         except Statement.DoesNotExist:
@@ -65,8 +64,7 @@ def statement_raw(request, release_date=None, slug=None):
     return HttpResponse(
         get_object_or_404(
             Statement,
-            release_date=datetime.datetime.strptime(
-                release_date, "%Y/%m/%d").date(),
+            release_date=release_date,
             slug=slug
             ).statement,
         content_type="text/plain; charset=utf-8"
@@ -75,6 +73,8 @@ def statement_raw(request, release_date=None, slug=None):
 
 def statement_by_msgid(request, msgid=None):
     """Return a redirect to the proper URL for a statement."""
+    if msgid.endswith(".txt"):
+        msgid = msgid[:-4]
     msgid = "<" + msgid + ">"
     return redirect(
         get_object_or_404(Statement, msgid=msgid).get_raw_url(),
@@ -128,6 +128,8 @@ class ResultView(DetailView):
 
 def result_by_msgid(request, msgid=None):
     """Return a redirect to the proper URL for a result."""
+    if msgid.endswith(".txt"):
+        msgid = msgid[:-4]
     msgid = "<" + msgid + ">"
     return redirect(
         get_object_or_404(Election, status=Election.RESULT,

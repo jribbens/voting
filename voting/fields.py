@@ -25,7 +25,7 @@ class EmailListField(CharField):
     description = "Comma-separated list of email addresses."
     default_validators = [EmailListValidator()]
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, expression, connection):
         """Converts a value as returned by the database to a Python object."""
         # pylint: disable=unused-argument
         return self.to_python(value)
