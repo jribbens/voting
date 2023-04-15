@@ -1,7 +1,7 @@
 """voting_extras template library"""
 
 from django import template
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
@@ -13,7 +13,7 @@ register = template.Library()
 def escape_all(value):
     """HTML entity-escape all characters in the string."""
     return mark_safe(
-        "".join("&#{};".format(ord(c)) for c in force_text(value))
+        "".join("&#{};".format(ord(c)) for c in force_str(value))
     )
 
 
